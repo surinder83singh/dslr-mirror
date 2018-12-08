@@ -12,7 +12,7 @@ class App {
     	this.readConfig();
 
         this.app   = express();
-        this.gphoto = new GPhoto(this.config.ghoto);
+        this.gphoto = new GPhoto(this, this.config.gphoto);
 
 
         this.app.engine("ejs", ejs.renderFile);
