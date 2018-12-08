@@ -59,7 +59,10 @@ class App {
     			success:true
     		}
 
-    		this.gphoto.capture(()=>{
+    		this.gphoto.capture((err, result)=>{
+    			if(err)
+    				return res.json({error: "Could not capture image"});
+    			console.log("file", result.file);
     			res.json(result);
     		})
     		
