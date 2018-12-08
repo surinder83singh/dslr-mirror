@@ -7,8 +7,8 @@
   },
   "main": "dslr-mirror.js",
   "dependencies": {
-    "dateformat": "^3.0.3",
-    "ejs": "^2.6.1",
+    "dateformat": "*",
+    "ejs": "*",
     "express": "*",
     "underscore": "*"
   },
