@@ -1,0 +1,19 @@
+{
+  "name": "dslr-mirror",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node dslr-mirror.js"
+  },
+  "main": "dslr-mirror.js",
+  "dependencies": {
+    "dateformat": "^3.0.3",
+    "ejs": "^2.6.1",
+    "express": "*",
+    "underscore": "*"
+  },
+  "engines": {
+    "node": "*",
+    "npm": "*"
+  }
+}

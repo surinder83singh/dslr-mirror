@@ -1,0 +1,12 @@
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/api.js"></script>
+    <% _.each(jsFiles, (file)=>{%>
+    <script src="<%= file %>"></script>
+    <% })%>
+  </body>
+</html>

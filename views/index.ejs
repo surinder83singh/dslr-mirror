@@ -1,0 +1,36 @@
+<% include partials/header %>
+<%
+jsFiles.push("/js/home.js");
+%>
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <!--header class="masthead">
+        <div class="inner">
+          <h3 class="masthead-brand">Cover</h3>
+          <nav class="nav nav-masthead justify-content-center">
+            <a class="nav-link active" href="#">Home</a>
+            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="#">Contact</a>
+          </nav>
+        </div>
+      </header-->
+      <main role="main" class="inner cover my-auto">
+        <!--h1 class="cover-heading"><%= page.title %></h1-->
+        <!--p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p-->
+        <section id="stageTouch" class="active">
+          <div class="touch-me-btn rounded-circle mx-auto">TOUCH ME</div>
+        </section>
+        <section id="stageCount">
+          <div class="counting-msg"><div class="counting-num my-auto text-center">3</div></div>
+        </section>
+        <section id="stageMsg">
+          <div>
+            <h1 class="text-center instruction-msg">Say cheese!!!!!!!</h1>
+          </div>
+        </section>
+        <section id="stageImage">
+          <div class="img"></div>
+          <a href="#" class="reset-btn btn btn-lg btn-primary">DONE</a>
+        </section>
+      </main>
+    </div>
+<% include partials/footer %>
