@@ -54,15 +54,23 @@ class App {
     		res.render("index", {page:{title: "Please click to take a great selfie"}});
     	});
 
+    	app.get("/image/:filename", (req, res, next)=>{
+    		var filename = req.params.filename;
+    		var file = this.gphoto.buildFilePath(filename);
+    		res.writeHead(200, {'content-type':'image/jpg'});
+			fs.createReadStream(file).pipe(res);
+    	});
+
     	app.post("/api/action/capture", (req, res)=>{
     		var result = {
     			success:true
     		}
 
-    		this.gphoto.capture((err, result)=>{
+    		this.gphoto.capture((err, r)=>{
     			if(err)
     				return res.json({error: "Could not capture image"});
-    			console.log("file", result.file);
+    			console.log("filename", r.filename);
+    			result.filename = r.filename;
     			res.json(result);
     		})
     		

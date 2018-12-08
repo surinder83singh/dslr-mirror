@@ -44,7 +44,7 @@ $(document).ready(()=>{
 	}
 
 	function showResult(result){
-		$resultImage.html('<img class="rounded mx-auto d-block" src="file://'+result.file.replace(/\\/, "/")+'">');
+		$resultImage.html('<img class="rounded mx-auto d-block" src="/image/'+result.filename+'">');
 		activateStage("Image");
 	}
 
