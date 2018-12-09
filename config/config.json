@@ -2,5 +2,9 @@
 	"siteName": "Infinity Selfie Mirror",
 	"gphoto":{
 		"folder": "Wedding-1"
+	},
+	"counter":{
+		"countdown": 5,
+		"captureDelay": 2
 	}
 }

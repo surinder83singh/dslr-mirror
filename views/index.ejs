@@ -1,36 +1,31 @@
 <% include partials/header %>
 <%
+jsFiles.push("https://oauth.io/auth/download/latest/oauth.js");
 jsFiles.push("/js/home.js");
 %>
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-      <!--header class="masthead">
-        <div class="inner">
-          <h3 class="masthead-brand">Cover</h3>
-          <nav class="nav nav-masthead justify-content-center">
-            <a class="nav-link active" href="#">Home</a>
-            <a class="nav-link" href="#">Features</a>
-            <a class="nav-link" href="#">Contact</a>
-          </nav>
-        </div>
-      </header-->
-      <main role="main" class="inner cover my-auto">
-        <!--h1 class="cover-heading"><%= page.title %></h1-->
-        <!--p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p-->
-        <section id="stageTouch" class="active">
-          <div class="touch-me-btn rounded-circle mx-auto">TOUCH ME</div>
-        </section>
-        <section id="stageCount">
-          <div class="counting-msg"><div class="counting-num my-auto text-center">3</div></div>
-        </section>
-        <section id="stageMsg">
-          <div>
-            <h1 class="text-center instruction-msg">Say cheese!!!!!!!</h1>
-          </div>
-        </section>
-        <section id="stageImage">
-          <div class="img"></div>
-          <a href="#" class="reset-btn btn btn-lg btn-primary">DONE</a>
-        </section>
-      </main>
-    </div>
+<div class="main d-flex w-100 h-100 mx-auto flex-column">
+	<div id="stageTouch" class="section ">
+		<div class="touch-me-btn rounded-circle mx-auto my-auto">TOUCH ME</div>
+	</div>
+	<div id="stageCount" class="section">
+		<div class="counting-msg mx-auto my-auto"><div class="counting-num my-auto text-center">3</div></div>
+	</div>
+	<div id="stageMsg" class="section">
+		<div class="mx-auto my-auto">
+			<h1 class="text-center instruction-msg">Say cheese!!!!!!!</h1>
+		</div>
+	</div>
+	<div id="stageImage" class="section active">
+		<div class="tools d-flex w-100 p-3 justify-content-end">
+			<div class="toolbox d-flex flex-column">
+				<a href="#" class="btn btn-lg btn-primary">PRINT</a>
+				<a href="#" id="shareOnTwitter" class="btn btn-lg btn-primary">TWITTER</a>
+				<a href="#" class="reset-btn btn btn-lg btn-primary">DONE</a>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	var counterConfig = <%- JSON.stringify(counterConfig) %>;
+</script>
 <% include partials/footer %>

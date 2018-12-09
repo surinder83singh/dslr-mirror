@@ -40,10 +40,12 @@ class App {
     	let locals = this.app.locals;
     	locals.siteName = this.config.siteName;
     	locals._ = _;
+    	locals.counterConfig = this.config.counter;
     }
 
 
     init(){
+    	var testing = true;
     	var app = this.app;
     	app.use((req, res, next)=>{
     		res.locals.jsFiles = [];
@@ -65,12 +67,17 @@ class App {
     		var result = {
     			success:true
     		}
+    		if(testing){
+    			result.filename = "http://192.168.178.56:3000/image/20181209_051032.jpg";
+    			res.json(result);
+    			return
+    		}
 
     		this.gphoto.capture((err, r)=>{
     			if(err)
     				return res.json({error: "Could not capture image"});
     			console.log("filename", r.filename);
-    			result.filename = r.filename;
+    			result.filename = "/image/"+r.filename;
     			res.json(result);
     		})
     		
