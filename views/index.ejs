@@ -4,7 +4,7 @@
 jsFiles.push("/js/home.js");
 %>
 <div class="main d-flex w-100 h-100 mx-auto flex-column">
-	<div id="stageTouch" class="section ">
+	<div id="stageTouch" class="section active">
 		<div class="touch-me-btn rounded-circle mx-auto my-auto">TOUCH ME</div>
 	</div>
 	<div id="stageCount" class="section">
@@ -25,17 +25,33 @@ jsFiles.push("/js/home.js");
 			</div>
 		</div>
 	</div>
-	<div id="stageEmail" class="section active">
-		<form class="email-form mx-auto mt-5 mb-auto">
-			<h1 class="text-center">Send Photo</h1>
-			<div class="form-group">
-				<input class="form-control form-control-lg" type="email" placeholder="Email address">
+	<div class="modal email-modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title">Send Photo</h1>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form class="email-form mx-auto mt-5 mb-auto">
+						<!--h1 class="text-center">Send Photo</h1-->
+						<div class="form-group">
+							<input required="true" class="email-input form-control form-control-lg" type="email" placeholder="Email address">
+						</div>
+						<div >
+							<button type="submit" class="send-email-btn btn btn-primary btn-lg btn-block">Submit</button>
+							<a data-dismiss="modal" class="btn btn-secondary btn-lg btn-block">Cancel</a>
+						</div>
+					</form>
+				</div>
+				<!--div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div-->
 			</div>
-			<div >
-				<button type="button" class="btn btn-primary btn-lg btn-block">Submit</button>
-				<a class="reset-btn btn btn-secondary btn-lg btn-block">Cancel</a>
-			</div>
-		</form>
+		</div>
 	</div>
 </div>
 <script type="text/javascript">

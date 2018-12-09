@@ -11,6 +11,7 @@
     "dateformat": "*",
     "ejs": "*",
     "express": "*",
+    "nodemailer": "^4.7.0",
     "underscore": "*"
   },
   "engines": {

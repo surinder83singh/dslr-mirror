@@ -5,6 +5,7 @@ const express     	= require('express');
 const ejs     		= require('ejs');
 const GPhoto 		= require('./lib/gphoto');
 const Printer       = require('./lib/printer');
+const Mailer        = require('./lib/mailer');
 const bodyParser    = require('body-parser');
 
 
@@ -12,34 +13,21 @@ class App {
     constructor(__dirname){
     	this.appFolder = __dirname;
     	this.readConfig();
+        this.initHttp();
+        this.initImageFolder();
 
-        this.app   = express();
-        this.app.use(bodyParser.urlencoded({ extended: false }));
-        this.app.use(bodyParser.json());
-
-        this.gphoto = new GPhoto(this, this.config.gphoto);
-        this.printer = new Printer(this, this.config.printer);
-        this.copyDummyImage();
-
-
-        this.app.engine("ejs", ejs.renderFile);
-        this.app.set("view engine", "ejs");
-
-
-        const port  = 3000;
-        this.app.listen(port, () => {
-        	console.log(`App listening on port ${port}!`)
-        });
-
+        this.gphoto     = new GPhoto(this, this.config.gphoto);
+        this.printer    = new Printer(this, this.config.printer);
+        this.mailer     = new Mailer(this, this.config.mailer);
 
         this.initStaticParams();
-
-        this.init();
+        this.copyDummyImage();
+        this.initAppRouter();
     }
 
     readConfig(){
-    	this.configFile = path.join(this.appFolder, "config", "config.json");
-    	this.config 	= JSON.parse(fs.readFileSync(this.configFile)+"");
+        this.configFile = path.join(this.appFolder, "config", "config.json");
+        this.config     = JSON.parse(fs.readFileSync(this.configFile)+"");
         var localConfigFile = path.join(this.appFolder, "config", "config-local.json");
         if(fs.existsSync(localConfigFile)){
             var localConfig     = JSON.parse(fs.readFileSync(localConfigFile)+"");
@@ -47,22 +35,41 @@ class App {
         }
     }
 
+    initHttp(){
+        this.app   = express();
+        this.app.use(bodyParser.urlencoded({ extended: false }));
+        this.app.use(bodyParser.json());
+        this.app.engine("ejs", ejs.renderFile);
+        this.app.set("view engine", "ejs");
+
+        const port  = this.config.http.port;
+        this.app.listen(port, () => {
+            console.log(`App listening on port ${port}!`)
+        });
+    }
+
+    initStaticParams(){
+        let locals = this.app.locals;
+        locals.siteName = this.config.siteName;
+        locals._ = _;
+        locals.counterConfig = this.config.counter;
+    }
+    initImageFolder(){
+        this.imageFolder = path.join(this.appFolder, "..", this.config.folder);
+        console.log("imageFolder", this.imageFolder)
+        if(!fs.existsSync(this.imageFolder))
+            fs.mkdirSync(this.imageFolder);
+    }
+
     copyDummyImage(){
-        var filePath = path.join(this.gphoto.folder, "dummy.jpg");
+        var filePath = this.buildImagePath("dummy.jpg");
         if(fs.existsSync(filePath))
             return;
         var content = fs.readFileSync(path.join(this.appFolder, "http", "img", "dummy.jpg"));
         fs.writeFileSync(filePath, content);
     }
 
-    initStaticParams(){
-    	let locals = this.app.locals;
-    	locals.siteName = this.config.siteName;
-    	locals._ = _;
-    	locals.counterConfig = this.config.counter;
-    }
-
-    init(){
+    initAppRouter(){
     	var testing = !!this.config.testing;
     	var app = this.app;
 
@@ -75,6 +82,10 @@ class App {
     		res.render("index", {page:{title: "Please click to take a great selfie"}});
     	});
 
+        app.get("/email-tpl-test", (req, res, next)=>{
+            res.render("email/photo", {imageCID: "xxxxxx"});
+        });
+
     	app.get("/image/:filename", (req, res, next)=>{
     		var filename = req.params.filename;
     		var file = this.gphoto.buildFilePath(filename);
@@ -86,7 +97,7 @@ class App {
     		var result = {success:true};
 
     		if(testing){
-    			result.image     = "/image/dummy.jpg";//file://"+this.gphoto.folder.replace(/\\/g, "/")+"/dummy.jpg";
+    			result.image     = "/image/dummy.jpg";
                 result.filename  = "dummy.jpg";
     			res.json(result);
     			return
@@ -115,7 +126,28 @@ class App {
             });
         });
 
+        app.post("/api/action/email", (req, res)=>{
+            var data = req.body;
+            function cb (err, result) {
+                if(err)
+                    return res.json(err);
+                //
+                res.json(result);
+            }
+
+            if(!data.email)
+                return cb({error:"Please enter email address."})
+            if(!data.filename)
+                return cb({error:"Please capture image."})
+
+            this.mailer.sendImage(data, cb);
+        });
+
     	app.use(express.static("http"))
+    }
+
+    buildImagePath(filename){
+        return path.join(this.imageFolder, filename);
     }
 
 }

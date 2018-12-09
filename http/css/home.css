@@ -100,7 +100,9 @@ body {
 .main>div.active{display:flex;}
 #stageImage{background: center no-repeat; background-size:cover;}
 .toolbox .btn{margin-bottom:15px;}
-.email-form{width:50%;max-width: 500px;}
+.email-modal{color:#6c757d}
+.email-form{width:100%;max-width: 500px;color:#FFFFFF;margin-top:20px !important;}
+
 
 
 

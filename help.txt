@@ -1,0 +1,15 @@
+convert rose:  -matte -mattecolor '#CCC6' -frame 10x10+3+4 ( -size 100x100 plasma:fractal -normalize -blur 0x1 ) -compose DstOver -composite   frame_plasma.gif
+
+
+
+
+
+export LC_CTYPE="en_US.UTF-8"; convert frame_plasma_1.jpg -page +100+100 s.jpg -background transparent -fill white -pointsize 300 -font /Users/surindersingh/Documents/dev/as/dslr-mirror/http/BrushScript.ttf -gravity south -size 3656x4608 label:'This is a very long caption line.' -flatten test1112.jpg
+
+
+export LC_CTYPE="en_US.UTF-8"; convert frame_plasma_1.jpg -page +100+100 s.jpg -background transparent -fill white -pointsize 300 -font /Users/surindersingh/Documents/dev/as/dslr-mirror/http/BrushScript.ttf -gravity south -size 3656x4608 label:'This is a very long caption line.' +set label -shadow -flatten test1112.jpg
+
+
+
+export LC_CTYPE="en_US.UTF-8"; convert frame_plasma_1.jpg -page +100+100 s.jpg \( -background transparent -fill white -pointsize 300 -font /Users/surindersingh/Documents/dev/as/dslr-mirror/http/BrushScript.ttf -gravity south -size 3656x4608 label:'Infinity Selfie Mirror' \( +clone -shadow 100x20+0+0 \) +swap \) -flatten test11.jpg
+

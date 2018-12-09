@@ -20,6 +20,25 @@ $(document).ready(()=>{
 	$(".print-btn").on("click", ()=>{
 		printImage();
 	});
+	$(".email-btn").on("click", ()=>{
+		$(".email-modal").modal("show");
+	});
+	$(".email-form").on("submit", (e)=>{
+		e.preventDefault();
+		var filename = captureResult.filename;
+		if(!filename)
+			return api.alert("Error", "Please capture image to email");
+		var data = {
+			filename,
+			email: $(".email-input").val()
+		}
+		api.action("email", data, (result)=>{
+			if(result.success)
+				return api.alert("Success", "Email sent.");
+
+			api.alert("Error", "Please Try again later");
+		});
+	})
 
 	function showTouchStage(){
 		$countingNum.html(counterConfig.countdown);

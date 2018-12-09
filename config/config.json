@@ -1,13 +1,29 @@
 {
 	"siteName": "Infinity Selfie Mirror",
+	"folder": "Wedding-1",
+	"http":{
+		"port": 5000
+	},
 	"gphoto":{
-		"folder": "Wedding-1"
+
 	},
 	"printer":{
-		"folder": "Wedding-1"
+
 	},
 	"counter":{
 		"countdown": 5,
 		"captureDelay": 2
+	},
+	"mailer":{
+		"from":"infinityselfiemirror@gmail.com",
+		"subject": "testing",
+		"text": "hello",
+		"transport":{
+			"service": "Gmail",
+	        "auth": {
+	            "user": "InfinitySelfieMirror@gmail.com",
+	            "pass": "wipxmdrvspkkvjnj"
+	        }
+	    }
 	}
 }
