@@ -88,7 +88,7 @@ class App {
 
     	app.get("/image/:filename", (req, res, next)=>{
     		var filename = req.params.filename;
-    		var file = this.gphoto.buildFilePath(filename);
+    		var file = this.buildImagePath(filename);
     		res.writeHead(200, {'content-type':'image/jpg'});
 			fs.createReadStream(file).pipe(res);
     	});
