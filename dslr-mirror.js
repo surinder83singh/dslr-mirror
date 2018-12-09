@@ -19,6 +19,7 @@ class App {
 
         this.gphoto = new GPhoto(this, this.config.gphoto);
         this.printer = new Printer(this, this.config.printer);
+        this.copyDummyImage();
 
 
         this.app.engine("ejs", ejs.renderFile);
@@ -44,6 +45,14 @@ class App {
             var localConfig     = JSON.parse(fs.readFileSync(localConfigFile)+"");
             this.config = _.extend(this.config, localConfig);
         }
+    }
+
+    copyDummyImage(){
+        var filePath = path.join(this.gphoto.folder, "dummy.jpg");
+        if(fs.existsSync(filePath))
+            return;
+        var content = fs.readFileSync(path.join(this.appFolder, "http", "img", "dummy.jpg"));
+        fs.writeFileSync(filePath, content);
     }
 
     initStaticParams(){
@@ -77,8 +86,8 @@ class App {
     		var result = {success:true};
 
     		if(testing){
-    			result.image     = "http://192.168.178.56:3000/image/20181209_051032.jpg";
-                result.filename  = "20181209_051032.jpg";
+    			result.image     = "/image/dummy.jpg";//file://"+this.gphoto.folder.replace(/\\/g, "/")+"/dummy.jpg";
+                result.filename  = "dummy.jpg";
     			res.json(result);
     			return
     		}
