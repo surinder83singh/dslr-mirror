@@ -8,18 +8,6 @@ a:focus,
 a:hover {
   color: #fff;
 }
-
-/* Custom default button */
-.btn-secondary,
-.btn-secondary:hover,
-.btn-secondary:focus {
-  color: #333;
-  text-shadow: none; /* Prevent inheritance from `body` */
-  background-color: #fff;
-  border: .05rem solid #fff;
-}
-
-
 /*
  * Base structure
  */
@@ -112,6 +100,7 @@ body {
 .main>div.active{display:flex;}
 #stageImage{background: center no-repeat; background-size:cover;}
 .toolbox .btn{margin-bottom:15px;}
+.email-form{width:50%;max-width: 500px;}
 
 
 

@@ -1,6 +1,6 @@
 <% include partials/header %>
 <%
-jsFiles.push("https://oauth.io/auth/download/latest/oauth.js");
+//jsFiles.push("https://oauth.io/auth/download/latest/oauth.js");
 jsFiles.push("/js/home.js");
 %>
 <div class="main d-flex w-100 h-100 mx-auto flex-column">
@@ -15,14 +15,27 @@ jsFiles.push("/js/home.js");
 			<h1 class="text-center instruction-msg">Say cheese!!!!!!!</h1>
 		</div>
 	</div>
-	<div id="stageImage" class="section active">
+	<div id="stageImage" class="section">
 		<div class="tools d-flex w-100 p-3 justify-content-end">
 			<div class="toolbox d-flex flex-column">
-				<a href="#" class="btn btn-lg btn-primary">PRINT</a>
-				<a href="#" id="shareOnTwitter" class="btn btn-lg btn-primary">TWITTER</a>
-				<a href="#" class="reset-btn btn btn-lg btn-primary">DONE</a>
+				<a class="print-btn btn btn-lg btn-primary">PRINT</a>
+				<a class="email-btn btn btn-lg btn-primary">EMAIL</a>
+				<!--a href="#" id="shareOnTwitter" class="btn btn-lg btn-primary">TWITTER</a-->
+				<a class="reset-btn btn btn-lg btn-primary">DONE</a>
 			</div>
 		</div>
+	</div>
+	<div id="stageEmail" class="section active">
+		<form class="email-form mx-auto mt-5 mb-auto">
+			<h1 class="text-center">Send Photo</h1>
+			<div class="form-group">
+				<input class="form-control form-control-lg" type="email" placeholder="Email address">
+			</div>
+			<div >
+				<button type="button" class="btn btn-primary btn-lg btn-block">Submit</button>
+				<a class="reset-btn btn btn-secondary btn-lg btn-block">Cancel</a>
+			</div>
+		</form>
 	</div>
 </div>
 <script type="text/javascript">

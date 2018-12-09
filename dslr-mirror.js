@@ -4,6 +4,8 @@ const _           = require('underscore');
 const express     	= require('express');
 const ejs     		= require('ejs');
 const GPhoto 		= require('./lib/gphoto');
+const Printer       = require('./lib/printer');
+const bodyParser    = require('body-parser');
 
 
 class App {
@@ -12,12 +14,15 @@ class App {
     	this.readConfig();
 
         this.app   = express();
+        this.app.use(bodyParser.urlencoded({ extended: false }));
+        this.app.use(bodyParser.json());
+
         this.gphoto = new GPhoto(this, this.config.gphoto);
+        this.printer = new Printer(this, this.config.printer);
 
 
         this.app.engine("ejs", ejs.renderFile);
         this.app.set("view engine", "ejs");
-
 
 
         const port  = 3000;
@@ -34,6 +39,11 @@ class App {
     readConfig(){
     	this.configFile = path.join(this.appFolder, "config", "config.json");
     	this.config 	= JSON.parse(fs.readFileSync(this.configFile)+"");
+        var localConfigFile = path.join(this.appFolder, "config", "config-local.json");
+        if(fs.existsSync(localConfigFile)){
+            var localConfig     = JSON.parse(fs.readFileSync(localConfigFile)+"");
+            this.config = _.extend(this.config, localConfig);
+        }
     }
 
     initStaticParams(){
@@ -43,10 +53,10 @@ class App {
     	locals.counterConfig = this.config.counter;
     }
 
-
     init(){
-    	var testing = true;
+    	var testing = !!this.config.testing;
     	var app = this.app;
+
     	app.use((req, res, next)=>{
     		res.locals.jsFiles = [];
     		next();
@@ -64,11 +74,11 @@ class App {
     	});
 
     	app.post("/api/action/capture", (req, res)=>{
-    		var result = {
-    			success:true
-    		}
+    		var result = {success:true};
+
     		if(testing){
-    			result.filename = "http://192.168.178.56:3000/image/20181209_051032.jpg";
+    			result.image     = "http://192.168.178.56:3000/image/20181209_051032.jpg";
+                result.filename  = "20181209_051032.jpg";
     			res.json(result);
     			return
     		}
@@ -76,13 +86,25 @@ class App {
     		this.gphoto.capture((err, r)=>{
     			if(err)
     				return res.json({error: "Could not capture image"});
-    			console.log("filename", r.filename);
-    			result.filename = "/image/"+r.filename;
-    			res.json(result);
-    		})
-    		
-    	})
 
+    			console.log("filename", r.filename);
+    			result.image = "/image/"+r.filename;
+                result.filename = r.filename;
+    			res.json(result);
+    		});
+    	});
+
+        app.post("/api/action/print", (req, res)=>{
+            var result  = {success:true};
+            var data    = req.body;
+            var filename = data.filename;
+
+            this.printer.print(filename, (err, r)=>{
+                if(err)
+                    return res.json({error: "Could not print image"});
+                res.json(result);
+            });
+        });
 
     	app.use(express.static("http"))
     }

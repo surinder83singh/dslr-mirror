@@ -3,6 +3,9 @@
 	"gphoto":{
 		"folder": "Wedding-1"
 	},
+	"printer":{
+		"folder": "Wedding-1"
+	},
 	"counter":{
 		"countdown": 5,
 		"captureDelay": 2
