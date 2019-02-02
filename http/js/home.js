@@ -46,6 +46,7 @@ $(document).ready(()=>{
 	}
 
 	function startCounting(){
+		$countingNum.html(counterConfig.countdown);
 		activateStage("Count");	
 		var count = counterConfig.countdown;
 		if(intervalId)

@@ -136,9 +136,9 @@ class App {
             }
 
             if(!data.email)
-                return cb({error:"Please enter email address."})
+                return cb({error:"100:Please enter email address."})
             if(!data.filename)
-                return cb({error:"Please capture image."})
+                return cb({error:"101:Please capture image."})
 
             this.mailer.sendImage(data, cb);
         });
