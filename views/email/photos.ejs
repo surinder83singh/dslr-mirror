@@ -5,7 +5,7 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway" rel="stylesheet" type="text/css">
 </head>
 <body style="background-color:#FFFFFF;font-family:'Open Sans', sans-serif;">
-  <div style="width:100%;max-width:800px;margin:auto;background-color:#f6f6f6;padding: 25px;border-radius: 5px;">
+  <div style="width:800px;max-width:100%;margin:auto;background-color:#f6f6f6;padding: 25px;border-radius: 5px;box-sizing:border-box">
       <div style="border-bottom:1px solid #DDD;">
         <div style="padding:20px;color:#FFFFFF;-webkit-box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.35);
           box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.35);
@@ -43,11 +43,20 @@
       </div>
       <div style="background:#FFFFFF;padding:20px;">
         <center>
-			<% _.each(imageCIDs, (imageCID)=>{ %>
-			<img src="cid:<%= imageCID %>" style="width:200px;"/>
+			<% _.each(attachments, (attachment)=>{ %>
+			<img title="<%- attachment.filename %>" alt="<%- attachment.filename %>" src="cid:<%= attachment.cid %>" style="width:200px;"/>
 			<% })%>
 		</center>
-		<a href="<%- imagesLink.replace('_CODE_', hash) %>">Download full size images from our website.</a>
+		<center style="margin:10px 0px 50px">
+		<a style_="background: -webkit-linear-gradient(135deg, #eb0c76 5%, #0094da 95%);
+        background: -webkit-gradient(linear, left top, right bottom, color-stop(5%, #eb0c76), color-stop(95%, #0094da));
+        background: -moz-linear-gradient(135deg, #eb0c76 5%, #0094da 95%);
+        background: -ms-linear-gradient(135deg, #eb0c76 5%, #0094da 95%);
+        background: -o-linear-gradient(135deg, #eb0c76 5%, #0094da 95%);
+        background: linear-gradient(135deg, #eb0c76 5%, #0094da 95%);"
+		style="margin:10px 0px; box-shadow: 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.2), 0 1px 8px 0 rgba(0,0,0,.12);border-radius:50px;text-decoration:none;display:inline-block;padding:10px 20px;font-size:18px;text-align:center;background-color:#0094da;color:#FFFFFF;" href="<%- imagesLink.replace('_CODE_', hash) %>">Download</a><br />
+			<span>full size images from our website.</span>
+		</center>
       </div>
       <div style="background: -webkit-linear-gradient(90deg, #00abc9 31%, #00e4ce 69%);
         background: -webkit-gradient(linear, left top, right top, color-stop(31%, #00abc9), color-stop(69%, #00e4ce));
@@ -60,6 +69,7 @@
           <div>+91 730-730-9876</div>
           <div><a style="color:#FFFFFF" href="InfinitySelfieMirror.Com">InfinitySelfieMirror.com</a></div>
       </div>
+	  <center style="font-size:12px;padding-top:5px">Email Time: <%- time %></center>
   </div>
 </body>
 </html>

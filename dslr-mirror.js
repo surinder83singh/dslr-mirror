@@ -95,7 +95,10 @@ class App {
     	});
 
         app.get("/email-tpl-test", (req, res, next)=>{
-            res.render("email/photo", {imageCID: "xxxxxx"});
+            res.render("email/photos", {
+				attachments:[], time:this.mailer.time(),
+				imagesLink:"", hash: ""
+			});
         });
 
     	app.get("/image/:filename", (req, res, next)=>{
@@ -109,8 +112,13 @@ class App {
     		var result = {success:true};
 
     		if(testing){
-    			result.image     = "/image/dummy.jpg";
-                result.filename  = "dummy.jpg";
+				var filename = Date.now()+'.jpg';
+				fs.copyFileSync(
+					this.buildImagePath('dummy.jpg'),
+					this.buildImagePath(filename),
+				);
+    			result.image     = "/image/"+filename;
+                result.filename  = filename;
     			res.json(result);
     			return this.createThumb(result.filename);
     		}
