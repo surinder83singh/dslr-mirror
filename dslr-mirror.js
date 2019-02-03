@@ -159,17 +159,13 @@ class App {
                 return cb({error:"101:Please capture image."})
 			
 			data.task	= 'add_images';
-			//data.data = JSON.stringify({images:data.images});
-			
-			//var d = 
-			
 
             this.saveImageRefsToServer(data, (err, result)=>{
             	if(err)
             		return cb(err)
 
             	data.hash = result.hash;
-            	this.mailer.sendImage(data, cb);
+            	this.mailer.sendImages(data, cb);
             }); 
 
             
@@ -191,16 +187,24 @@ class App {
 			srcPath: this.buildImagePath(filename),
 			dstPath: this.buildThumbPath(filename),
 			width:   this.config.convert.thumbWidth,
-		}, function(err, stdout, stderr){
+		}, (err, stdout, stderr)=>{
 			if (err)
-				console.log('create thumb: '+filename, err);
-			console.log('ccccccccccccccccccccc');
+				this.log('create thumb: '+filename, err);
+			this.log('ccccccccccccccccccccc');
+		});
+		
+		this.server.sendFiles([this.buildImagePath(filename)], "images", (err, result)=>{
+			this.log("sendFiles", err, result)
 		});
 	}
 	
 	saveImageRefsToServer(data, callback){
 		this.server.json(data, callback);
 		
+	}
+	log(...args){
+		args.unshift(this.constructor.name+"::");
+		console.log.apply(console, args);
 	}
 }
 

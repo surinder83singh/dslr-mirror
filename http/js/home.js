@@ -16,10 +16,15 @@ $(document).ready(()=>{
 		startCounting();
 	});
 	$resetBtn.on("click", ()=>{
+		bundleImages = [];
 		showTouchStage();
 	});
+	
 	$(".print-btn").on("click", ()=>{
 		printImage();
+	});
+	$(".more-btn").on("click", ()=>{
+		showTouchStage();
 	});
 	$(".email-btn").on("click", ()=>{
 		$(".email-modal").modal("show");
@@ -29,8 +34,7 @@ $(document).ready(()=>{
 		console.log('email form bundleImages: ', bundleImages);
 		if(!bundleImages.length)
 			return api.alert("Error", "Please capture image to email");
-		var images = ['dummy.jpg', 'ddddd.d'];
-		//bundleImages.map((image)=>{return image.filename});
+		var images = bundleImages.map((image)=>{return image.filename});
 		console.log('email form images: ', images);
 		var data = {
 			images,
@@ -38,7 +42,7 @@ $(document).ready(()=>{
 		}
 		api.action("email", data, (result)=>{
 			$('.toast').toast('show');
-			//bundleImages = [];
+			bundleImages = [];
 			/*
 			if(result.success)
 				return api.alert("Success", "Email sent.");

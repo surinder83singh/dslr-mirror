@@ -15,7 +15,8 @@
 		"captureDelay": 2
 	},
 	"server":{
-		"host": "https://server.com/"
+		"endpoint": "https://server.com/",
+		"imagesLink": "https://server.com/images/?code=_CODE_"
 	},
 	"mailer":{
 		"from":"infinityselfiemirror@gmail.com",

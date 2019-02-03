@@ -42,7 +42,12 @@
         <h3>Enjoy your great selfie!</h3>
       </div>
       <div style="background:#FFFFFF;padding:20px;">
-        <center><img src="cid:<%= imageCID %>" style="width:200px;"/></center>
+        <center>
+			<% _.each(imageCIDs, (imageCID)=>{ %>
+			<img src="cid:<%= imageCID %>" style="width:200px;"/>
+			<% })%>
+		</center>
+		<a href="<%- imagesLink.replace('_CODE_', hash) %>">Download full size images from our website.</a>
       </div>
       <div style="background: -webkit-linear-gradient(90deg, #00abc9 31%, #00e4ce 69%);
         background: -webkit-gradient(linear, left top, right top, color-stop(31%, #00abc9), color-stop(69%, #00e4ce));
