@@ -25,5 +25,9 @@
 	            "pass": "wipxmdrvspkkvjnj"
 	        }
 	    }
+	},
+	"convert":{
+		"path": "../imagemagick/convert",
+		"thumbWidth":320
 	}
 }

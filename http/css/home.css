@@ -84,7 +84,14 @@ body {
   padding: .75rem 1.25rem;
   font-weight: 700;
 }
-
+.toast-wrapper{
+	position: absolute;
+	width: 50%;
+	height: 50px;
+	left:25%;
+}
+.toast{max-width:100% !important;}
+.toast-body{margin: 0px;}
 .touch-me-btn{
   height:350px;width:350px;text-align:center;line-height:350px;padding:0px;
   background:#000000 url("/img/giphy.gif") center no-repeat;

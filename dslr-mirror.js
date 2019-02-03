@@ -7,6 +7,7 @@ const GPhoto 		= require('./lib/gphoto');
 const Printer       = require('./lib/printer');
 const Mailer        = require('./lib/mailer');
 const bodyParser    = require('body-parser');
+const im 			= require('imagemagick');
 
 
 class App {
@@ -33,6 +34,11 @@ class App {
             var localConfig     = JSON.parse(fs.readFileSync(localConfigFile)+"");
             this.config = _.extend(this.config, localConfig);
         }
+        var convertPath = this.config.convert.path;
+        if(convertPath.indexOf('.') === 0){
+        	convertPath = path.join(this.appFolder, convertPath)
+        }
+		im.convert.path = convertPath;
     }
 
     initHttp(){
@@ -56,9 +62,13 @@ class App {
     }
     initImageFolder(){
         this.imageFolder = path.join(this.appFolder, "..", this.config.folder);
+        this.thumbFolder = path.join(this.appFolder, "..", this.config.folder, 'thumb');
         console.log("imageFolder", this.imageFolder)
         if(!fs.existsSync(this.imageFolder))
             fs.mkdirSync(this.imageFolder);
+		
+        if(!fs.existsSync(this.thumbFolder))
+            fs.mkdirSync(this.thumbFolder);
     }
 
     copyDummyImage(){
@@ -100,7 +110,7 @@ class App {
     			result.image     = "/image/dummy.jpg";
                 result.filename  = "dummy.jpg";
     			res.json(result);
-    			return
+    			return this.createThumb(result.filename);
     		}
 
     		this.gphoto.capture((err, r)=>{
@@ -111,6 +121,9 @@ class App {
     			result.image = "/image/"+r.filename;
                 result.filename = r.filename;
     			res.json(result);
+				
+				
+				this.createThumb(result.filename);
     		});
     	});
 
@@ -137,10 +150,18 @@ class App {
 
             if(!data.email)
                 return cb({error:"100:Please enter email address."})
-            if(!data.filename)
+            if(!data.images || !data.images.length)
                 return cb({error:"101:Please capture image."})
 
-            this.mailer.sendImage(data, cb);
+            this.sendImagesToServer(data, (err, result)=>{
+            	if(err)
+            		return cb(err)
+
+            	data.hash = result.hash;
+            	this.mailer.sendImage(data, cb);
+            }); 
+
+            
         });
 
     	app.use(express.static("http"))
@@ -149,6 +170,22 @@ class App {
     buildImagePath(filename){
         return path.join(this.imageFolder, filename);
     }
+
+    buildThumbPath(filename){
+        return path.join(this.thumbFolder, filename);
+    }
+	
+	createThumb(filename){
+		im.resize({
+			srcPath: this.buildImagePath(filename),
+			dstPath: this.buildThumbPath(filename),
+			width:   this.config.convert.thumbWidth,
+		}, function(err, stdout, stderr){
+			if (err)
+				console.log('create thumb: '+filename, err);
+			console.log('ccccccccccccccccccccc');
+		});
+	}
 
 }
 

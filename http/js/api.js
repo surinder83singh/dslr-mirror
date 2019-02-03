@@ -3,6 +3,21 @@ class Api{
 		//@TODO 
 		alert(text);
 	}
+	
+	toast(msg, option, skip){
+		option = option||{};
+		
+		Object.assign(option, {delay:2000});
+		var $toast =  $(`<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+		  <div class="toast-body alert alert-primary">
+			${msg}
+		  </div>
+		</div>`);
+		$toast.appendTo('.toast-wrapper');
+		$toast.toast(option||{});
+		if(!skip){$toast.toast('show');}
+		return $toast;
+	}
 
 	action(action, data, callback){
 		data = data || {};

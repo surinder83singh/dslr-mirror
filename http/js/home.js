@@ -5,9 +5,10 @@ $(document).ready(()=>{
 	var $stageImage = $('#stageImage');
 	var $countingNum = $(".counting-num");
 	var $resultImage = $("#stageImage .img");
+	var $emailModal	= $(".email-modal");
 	var intervalId 	= false;
 	var captureResult = {};
-
+	var bundleImages	= [];
 
 	//var $touchMeBtn = $('.touch-me-btn');
 	var $resetBtn = $('.reset-btn');
@@ -25,18 +26,21 @@ $(document).ready(()=>{
 	});
 	$(".email-form").on("submit", (e)=>{
 		e.preventDefault();
-		var filename = captureResult.filename;
-		if(!filename)
+		if(!bundleImages.length)
 			return api.alert("Error", "Please capture image to email");
+		var images = bundleImages.map((image)=>{return image.filename});
 		var data = {
-			filename,
+			images,
 			email: $(".email-input").val()
 		}
 		api.action("email", data, (result)=>{
+			$('.toast').toast('show');
+			bundleImages = [];
+			/*
 			if(result.success)
 				return api.alert("Success", "Email sent.");
 
-			api.alert("Error", "Please Try again later");
+			api.alert("Error", "Please Try again later");*/
 		});
 	})
 
@@ -87,6 +91,7 @@ $(document).ready(()=>{
 	function showResult(result){
 		$stageImage.css('background-image', 'url('+result.image+')');
 		captureResult = result;
+		bundleImages.push(result);
 		activateStage("Image");
 	}
 
