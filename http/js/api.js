@@ -29,7 +29,7 @@ class Api{
 			method:"POST",
 			success:(res)=>{
 				console.log("res", res)
-				callback(res)
+				callback(null, res)
 			},
 			error:(res)=>{
 				callback({error:"Please try again"});

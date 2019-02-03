@@ -40,9 +40,10 @@ $(document).ready(()=>{
 			images,
 			email: $(".email-input").val()
 		}
-		api.action("email", data, (result)=>{
-			$('.toast').toast('show');
+		api.action("email", data, (err, result)=>{
+			api.toast('Email queued successfully.');
 			bundleImages = [];
+			$(".email-modal").modal("hide");
 			/*
 			if(result.success)
 				return api.alert("Success", "Email sent.");
@@ -75,7 +76,7 @@ $(document).ready(()=>{
 	}
 
 	function capture(){
-		api.action("capture", {}, (result)=>{
+		api.action("capture", {}, (err, result)=>{
 			if(result.success)
 				return showResult(result);
 
@@ -87,7 +88,7 @@ $(document).ready(()=>{
 		if(!filename)
 			return api.alert("Error", "Please capture image to print");
 
-		api.action("print", {filename}, (result)=>{
+		api.action("print", {filename}, (err, result)=>{
 			if(result.success)
 				return api.alert("Success", "Photo printing job in progress.");
 
