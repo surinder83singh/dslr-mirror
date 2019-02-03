@@ -6,6 +6,7 @@ const ejs     		= require('ejs');
 const GPhoto 		= require('./lib/gphoto');
 const Printer       = require('./lib/printer');
 const Mailer        = require('./lib/mailer');
+const Server        = require('./lib/server');
 const bodyParser    = require('body-parser');
 const im 			= require('imagemagick');
 
@@ -20,6 +21,7 @@ class App {
         this.gphoto     = new GPhoto(this, this.config.gphoto);
         this.printer    = new Printer(this, this.config.printer);
         this.mailer     = new Mailer(this, this.config.mailer);
+        this.server     = new Server(this, this.config.server);
 
         this.initStaticParams();
         this.copyDummyImage();
@@ -147,13 +149,22 @@ class App {
                 //
                 res.json(result);
             }
+			
+			console.log('email post data:', data);
 
             if(!data.email)
-                return cb({error:"100:Please enter email address."})
+                return cb({error:"100:Please enter email address."});
+			
             if(!data.images || !data.images.length)
                 return cb({error:"101:Please capture image."})
+			
+			data.task	= 'add_images';
+			//data.data = JSON.stringify({images:data.images});
+			
+			//var d = 
+			
 
-            this.sendImagesToServer(data, (err, result)=>{
+            this.saveImageRefsToServer(data, (err, result)=>{
             	if(err)
             		return cb(err)
 
@@ -186,7 +197,11 @@ class App {
 			console.log('ccccccccccccccccccccc');
 		});
 	}
-
+	
+	saveImageRefsToServer(data, callback){
+		this.server.json(data, callback);
+		
+	}
 }
 
 

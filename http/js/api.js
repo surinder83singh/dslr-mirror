@@ -23,7 +23,9 @@ class Api{
 		data = data || {};
 		$.ajax({
 			url: "/api/action/"+action,
-			data,
+			data:JSON.stringify(data),
+			dataType:'json',
+			contentType:"application/json",
 			method:"POST",
 			success:(res)=>{
 				console.log("res", res)

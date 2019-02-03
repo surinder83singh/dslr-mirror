@@ -26,16 +26,19 @@ $(document).ready(()=>{
 	});
 	$(".email-form").on("submit", (e)=>{
 		e.preventDefault();
+		console.log('email form bundleImages: ', bundleImages);
 		if(!bundleImages.length)
 			return api.alert("Error", "Please capture image to email");
-		var images = bundleImages.map((image)=>{return image.filename});
+		var images = ['dummy.jpg', 'ddddd.d'];
+		//bundleImages.map((image)=>{return image.filename});
+		console.log('email form images: ', images);
 		var data = {
 			images,
 			email: $(".email-input").val()
 		}
 		api.action("email", data, (result)=>{
 			$('.toast').toast('show');
-			bundleImages = [];
+			//bundleImages = [];
 			/*
 			if(result.success)
 				return api.alert("Success", "Email sent.");
@@ -92,6 +95,7 @@ $(document).ready(()=>{
 		$stageImage.css('background-image', 'url('+result.image+')');
 		captureResult = result;
 		bundleImages.push(result);
+		console.log("bundleImages: ", bundleImages);
 		activateStage("Image");
 	}
 

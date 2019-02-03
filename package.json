@@ -13,7 +13,8 @@
     "express": "*",
     "nodemailer": "^4.7.0",
     "underscore": "*",
-    "imagemagick": "*"
+    "imagemagick": "*",
+    "request": "*"
   },
   "engines": {
     "node": "*",
