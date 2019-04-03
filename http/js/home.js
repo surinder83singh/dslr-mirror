@@ -3,12 +3,14 @@ $(document).ready(()=>{
 	var $stageCount = $('#stageCount');
 	var $stageMsg 	= $('#stageMsg');
 	var $stageImage = $('#stageImage');
+	var $recentImagesButton = $('#recentImagesButton');
 	var $countingNum = $(".counting-num");
 	var $resultImage = $("#stageImage .img");
 	var $emailModal	= $(".email-modal");
 	var intervalId 	= false;
 	var captureResult = {};
 	var bundleImages	= [];
+	var currentImage = '';
 
 	//var $touchMeBtn = $('.touch-me-btn');
 	var $resetBtn = $('.reset-btn');
@@ -98,7 +100,7 @@ $(document).ready(()=>{
 
 	function showResult(result){
 		$stageImage.css('background-image', 'url('+result.image+')');
-		captureResult = result;
+		$recentImagesButton.css('background-image', 'url('+result.image+')');
 		bundleImages.push(result);
 		console.log("bundleImages: ", bundleImages);
 		activateStage("Image");
