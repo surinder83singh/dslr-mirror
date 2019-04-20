@@ -4,7 +4,8 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
+http/selection-grid/images
+http/selection-grid/img
 # Runtime data
 pids
 *.pid

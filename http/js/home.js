@@ -3,7 +3,7 @@ $(document).ready(()=>{
 	var $stageCount = $('#stageCount');
 	var $stageMsg 	= $('#stageMsg');
 	var $stageImage = $('#stageImage');
-	var $recentImagesButton = $('#recentImagesButton');
+	//var $recentImagesButton = $('#recentImagesButton');
 	var $countingNum = $(".counting-num");
 	var $resultImage = $("#stageImage .img");
 	var $emailModal	= $(".email-modal");
@@ -13,6 +13,25 @@ $(document).ready(()=>{
 	var currentImage = '';
 
 	//var $touchMeBtn = $('.touch-me-btn');
+	
+	var selectionGrid = new SelectionGrid({
+		el:".slg-container", images:[]
+	});
+	selectionGrid.init();
+	$('.slg-select-all').on("click", ()=>{
+		selectionGrid.selectAll();
+	});
+	$('.slg-deselect-all').on("click", ()=>{
+		selectionGrid.deSelectAll();
+	})
+	$('.slg-cancel').on("click", ()=>{
+		selectionGrid.deactivate();
+	})
+	/*$('.get-selected').on("click", ()=>{
+		var selected = selectionGrid.getSelected();
+		console.log("selected", selected)
+	})*/
+	
 	var $resetBtn = $('.reset-btn');
 	$stageTouch.on("click", ()=>{
 		startCounting();
@@ -34,10 +53,15 @@ $(document).ready(()=>{
 	$(".email-form").on("submit", (e)=>{
 		e.preventDefault();
 		console.log('email form bundleImages: ', bundleImages);
+		var selected = selectionGrid.getSelected();
 		if(!bundleImages.length)
 			return api.alert("Error", "Please capture image to email");
-		var images = bundleImages.map((image)=>{return image.filename});
-		console.log('email form images: ', images);
+		if(!selected.length){
+			var images = bundleImages.map((image)=>{return image.filename});
+		}else{
+			console.log('email form images: ', selected);
+			var images = selected;
+		}
 		var data = {
 			images,
 			email: $(".email-input").val()
@@ -46,6 +70,7 @@ $(document).ready(()=>{
 			api.toast('Email queued successfully.');
 			bundleImages = [];
 			$(".email-modal").modal("hide");
+			selectionGrid.deactivate();
 			/*
 			if(result.success)
 				return api.alert("Success", "Email sent.");
@@ -100,10 +125,11 @@ $(document).ready(()=>{
 
 	function showResult(result){
 		$stageImage.css('background-image', 'url('+result.image+')');
-		$recentImagesButton.css('background-image', 'url('+result.image+')');
+		//$recentImagesButton.css('background-image', 'url('+result.image+')');
 		bundleImages.push(result);
 		console.log("bundleImages: ", bundleImages);
 		activateStage("Image");
+		selectionGrid.setOptions({images:bundleImages});
 	}
 
 	function activateStage(stage){

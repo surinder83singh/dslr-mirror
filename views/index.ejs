@@ -1,6 +1,8 @@
 <% include partials/header %>
 <%
 //jsFiles.push("https://oauth.io/auth/download/latest/oauth.js");
+jsFiles.push("/selection-grid/js/jquery.easing.1.3.js");
+jsFiles.push("/selection-grid/js/selection-grid.js");
 jsFiles.push("/js/home.js");
 %>
 
@@ -25,11 +27,18 @@ jsFiles.push("/js/home.js");
 				<!--a href="#" id="shareOnTwitter" class="btn btn-lg btn-primary">TWITTER</a-->
 				<a class="more-btn btn btn-lg btn-primary">MORE</a>
 				<a class="reset-btn btn btn-lg btn-primary">DONE</a>
+				<a class="slg-select-all btn btn-lg btn-primary slg-button">Select all</a>
+				<a class="slg-deselect-all btn btn-lg btn-primary slg-button">Deselect all</a>
+				<a class="slg-cancel btn btn-lg btn-primary slg-button">Cancel</a>
 			</div>
 		</div>
 	</div>
 	<div class="recentImagesWrapper">
-		<div id="recentImagesButton"></div>
+		<div class="slg-container">
+			<div class="slg-grid"></div>
+			<div class="slg-box"></div>	
+		</div>
+		<!--<div id="recentImagesButton"></div>-->
 	</div>
 	<div class="modal email-modal" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
