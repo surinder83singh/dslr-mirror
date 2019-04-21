@@ -15,7 +15,8 @@ $(document).ready(()=>{
 	//var $touchMeBtn = $('.touch-me-btn');
 	
 	var selectionGrid = new SelectionGrid({
-		el:".slg-container", images:[]
+		el:".slg-container", images:[],
+		boxImageCount:10
 	});
 	selectionGrid.init();
 	$('.slg-select-all').on("click", ()=>{
@@ -129,7 +130,7 @@ $(document).ready(()=>{
 		bundleImages.push(result);
 		console.log("bundleImages: ", bundleImages);
 		activateStage("Image");
-		selectionGrid.setOptions({images:bundleImages});
+		selectionGrid.setImages(bundleImages);
 	}
 
 	function activateStage(stage){

@@ -25,7 +25,7 @@ class App {
         this.server     = new Server(this, this.config.server);
 
         this.initStaticParams();
-        this.copyDummyImage();
+        //this.copyDummyImage();
         this.initAppRouter();
     }
 
@@ -109,15 +109,19 @@ class App {
 			fs.createReadStream(file).pipe(res);
     	});
 
+        var dummyImageIndex = 1;
     	app.post("/api/action/capture", (req, res)=>{
     		var result = {success:true};
 
     		if(testing){
 				var filename = Date.now()+'.jpg';
 				fs.copyFileSync(
-					this.buildImagePath('dummy.jpg'),
+					this.buildImagePath(`dummy-${dummyImageIndex}.jpg`),
 					this.buildImagePath(filename),
 				);
+                dummyImageIndex++;
+                if(dummyImageIndex>3)
+                    dummyImageIndex = 1;
     			result.image     = "/image/"+filename;
                 result.filename  = filename;
     			res.json(result);
@@ -199,7 +203,6 @@ class App {
 		}, (err, stdout, stderr)=>{
 			if (err)
 				this.log('create thumb: '+filename, err);
-			this.log('ccccccccccccccccccccc');
 		});
 		
 		this.server.sendFiles([this.buildImagePath(filename)], "images", (err, result)=>{

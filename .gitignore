@@ -6,6 +6,10 @@ yarn-debug.log*
 yarn-error.log*
 http/selection-grid/images
 http/selection-grid/img
+test-event/*
+test-event/.test-event
+!test-event/dummy*.jpg
+!test-event/thumb/*
 # Runtime data
 pids
 *.pid

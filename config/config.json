@@ -1,6 +1,6 @@
 {
 	"siteName": "Infinity Selfie Mirror",
-	"folder": "Wedding-1",
+	"folder": "dslr-mirror/test-event",
 	"http":{
 		"port": 5000
 	},

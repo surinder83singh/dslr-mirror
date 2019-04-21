@@ -1,12 +1,14 @@
 class SelectionGrid{
 	constructor(options){
+		this.bodyEl = $(document.body);
 		this.el = $(options.el);
 		this.boxEl = this.el.find(".slg-box");
 		this.gridEl = this.el.find(".slg-grid");
 		this.dialog = $('<div class="slg-dialog"><div class="slg-close-dialog"></div></div>');
-		this.el.append(this.dialog);
+		this.bodyEl.append(this.dialog);
 		this.fullimageBox0 = $('<div class="slg-fullimage-box"></div>');
 		this.fullimageBox1 = $('<div class="slg-fullimage-box"></div>');
+		
 		this.dialog.append(this.fullimageBox0);
 		this.dialog.append(this.fullimageBox1);
 		this.fullimageBoxIndex = 0;
@@ -29,20 +31,29 @@ class SelectionGrid{
 		this.options = options;
 		this.init();
 	}
+	setImages(images){
+		this.options.images = images;
+		this.init();
+	}
 
 	loadBox(){
 		var images = this.options.images || [];
 		var c = Math.max(images.length - (this.options.boxImageCount || 2), 0);
 		//console.log("cccc", c)
 		this.boxEl.html("");
-		for(var i = images.length-1; i>=c; i--){
-			this.addBoxImage(images[i], i);
+		var index = 0;
+		for(var i = c; i < images.length; i++){
+			this.addBoxImage(images[i], index++);
 		}
 	}
 	addBoxImage(args, index){
 		args = Object.assign({}, args, {index})
 		var html = this.renderHtml("box", args);
-		this.boxEl.prepend(html);
+		if(this.options.prependBoxImg){
+			this.boxEl.prepend(html);
+		}else{
+			this.boxEl.append(html);
+		}
 	}
 	loadGrid(){
 		var images = this.options.images || [];
@@ -63,7 +74,7 @@ class SelectionGrid{
 		return this[key+"Tpl"](args);
 	}
 	boxTpl(args){
-		return `<div class="slg-img-box" data-index="${args.index}">
+		return `<div class="slg-img-box" data-index="${args.index}" style="--slg-img-index:${args.index}">
 					<div class="slg-img" style="background-image:url(${args.image})"></div>
 				</div>`;
 	}
@@ -165,11 +176,11 @@ class SelectionGrid{
 		gridItemBox.toggleClass("selected");
 	}
 	activate(){
-		$(document.body).addClass("slg-active");
+		this.bodyEl.addClass("slg-active");
 		this.gridEl.addClass("active");
 	}
 	deactivate(){
-		$(document.body).removeClass("slg-active");
+		this.bodyEl.removeClass("slg-active");
 		this.gridEl.removeClass("active");
 	}
 	selectAll(){
@@ -200,9 +211,8 @@ class SelectionGrid{
 }
 
 (function($) {
-
-	$.fn.SelectionGrid = function(options) {
-		var data = this.data("selection-gallery");
+	$.fn.selectionGrid = function(options) {
+		var data = this.data("selection-drid");
 		if(data)
 			return data.setOptions(options);
 
@@ -210,59 +220,9 @@ class SelectionGrid{
 			el: this
 		})
 
-		data = new SelectionGrid(options)
+		data = new SelectionGallery(options)
 
-		this.data("selection-gallery", data);
+		this.data("selection-grid", data);
 		data.init();
 	}
-
-
-
-	// ======================= imagesLoaded Plugin ===============================
-	// https://github.com/desandro/imagesloaded
-
-	// $('#my-container').imagesLoaded(myFunction)
-	// execute a callback when all images have loaded.
-	// needed because .load() doesn't work on cached images
-
-	// callback function gets image collection as argument
-	//  this is the container
-
-	// original: mit license. paul irish. 2010.
-	// contributors: Oren Solomianik, David DeSandro, Yiannis Chatzikonstantinou
-
-	$.fn.imagesLoaded 		= function( callback ) {
-		var $images = this.find('img'),
-			len 	= $images.length,
-			_this 	= this,
-			blank 	= 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-
-		function triggerCallback() {
-			callback.call( _this, $images );
-		}
-
-		function imgLoaded() {
-			if ( --len <= 0 && this.src !== blank ){
-				setTimeout( triggerCallback );
-				$images.off( 'load error', imgLoaded );
-			}
-		}
-
-		if ( !len ) {
-			triggerCallback();
-		}
-
-		$images.on( 'load error',  imgLoaded ).each( function() {
-			// cached images don't fire load sometimes, so we reset src.
-			if (this.complete || this.complete === undefined){
-				var src = this.src;
-				// webkit hack from http://groups.google.com/group/jquery-dev/browse_thread/thread/eee6ab7b2da50e1f
-				// data uri bypasses webkit log warning (thx doug jones)
-				this.src = blank;
-				this.src = src;
-			}
-		});
-
-		return this;
-	};
 })(jQuery)

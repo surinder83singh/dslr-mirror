@@ -1,4 +1,5 @@
 html{
+	--slg-grid-img-min-width:300px;
 	--slg-grid-img-width:20%;
 	--slg-grid-img-height:350px;
 	--slg-grid-img-padding:20px;
@@ -7,6 +8,7 @@ html{
 	--slg-box-img-padding:10px;
 	--slg-zoom-btn-width:50px;
 	--slg-zoom-btn-height:50px;
+	--slg-img-left-margin:20px;
 }
 
 .slg-loading{
@@ -50,7 +52,7 @@ html{
 /* grid */
 .slg-grid{
 	z-index:-1;opacity:0;transition:all 0.5s ease;
-	height::100%;overflow:auto;
+	height:100%;overflow:auto;
 }
 .slg-grid.active{z-index:9999;opacity:1}
 .slg-grid .slg-img-box{
@@ -60,6 +62,7 @@ html{
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
     width:var(--slg-grid-img-width, 250px);
     height:var(--slg-grid-img-height, 250px);
+    min-width:var(--slg-grid-img-min-width, 0px);
     position:relative;transition:all 0.5s ease-out;
 }
 .slg-grid .slg-img-box.selected{background-color:#0F0;background:url("../img/border.png") repeat;}
@@ -97,11 +100,9 @@ html{
     box-shadow: 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.2), 0 1px 8px 0 rgba(0,0,0,.12);
 	width:var(--slg-box-img-width, 250px);
     height:var(--slg-box-img-height, 250px);
-    position:absolute;border-radius:25px;right:0px;bottom:0px;
-}
-.slg-box .slg-img-box:nth-child(2){
-	right:25px;bottom:25px;
-	left:attr(data-index)px;
+    position:absolute;border-radius:25px;
+    left:0px;
+    left:calc(var(--slg-img-index) * var(--slg-img-left-margin));
 }
 .slg-box .slg-img{
 	position:absolute;border-radius:15px;
