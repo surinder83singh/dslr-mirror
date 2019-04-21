@@ -18,6 +18,10 @@
 		"endpoint": "https://server.com/",
 		"imagesLink": "https://server.com/images/?code=_CODE_"
 	},
+	"db":{
+		"url":"mongodb://localhost:27017",
+		"dbname":"dslr"
+	},
 	"mailer":{
 		"from":"infinityselfiemirror@gmail.com",
 		"subject": "testing",

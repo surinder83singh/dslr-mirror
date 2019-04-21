@@ -38,7 +38,7 @@ $(document).ready(()=>{
 		startCounting();
 	});
 	$resetBtn.on("click", ()=>{
-		bundleImages = [];
+		setBundleImages([]);
 		showTouchStage();
 	});
 	
@@ -69,9 +69,10 @@ $(document).ready(()=>{
 		}
 		api.action("email", data, (err, result)=>{
 			api.toast('Email queued successfully.');
-			bundleImages = [];
+			setBundleImages([]);
 			$(".email-modal").modal("hide");
 			selectionGrid.deactivate();
+			showTouchStage();
 			/*
 			if(result.success)
 				return api.alert("Success", "Email sent.");
@@ -101,6 +102,11 @@ $(document).ready(()=>{
 				setTimeout(capture, (counterConfig.captureDelay || 0 ) * 1000 )
 			}
 		}, 1000)
+	}
+
+	function setBundleImages(images){
+		bundleImages = images;
+		selectionGrid.setImages(bundleImages);
 	}
 
 	function capture(){

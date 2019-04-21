@@ -4,12 +4,18 @@ const path        = require("path");
 const _           = require('underscore');
 const express     	= require('express');
 const ejs     		= require('ejs');
+const bodyParser    = require('body-parser');
+const im            = require('imagemagick');
+const crypto        = require('crypto');
+const md5           = crypto.createHash('md5');
+
+
 const GPhoto 		= require('./lib/gphoto');
 const Printer       = require('./lib/printer');
 const Mailer        = require('./lib/mailer');
 const Server        = require('./lib/server');
-const bodyParser    = require('body-parser');
-const im 			= require('imagemagick');
+const DB            = require('./lib/db');
+
 
 
 class App {
@@ -23,6 +29,7 @@ class App {
         this.printer    = new Printer(this, this.config.printer);
         this.mailer     = new Mailer(this, this.config.mailer);
         this.server     = new Server(this, this.config.server);
+        this.db         = new DB(this, this.config.db)
 
         this.initStaticParams();
         //this.copyDummyImage();
@@ -211,7 +218,12 @@ class App {
 	}
 	
 	saveImageRefsToServer(data, callback){
-		this.server.json(data, callback);
+        var str = data.images.join(",");
+        data.hash = md5.update(str).digest('hex')
+        callback(null, data)
+		this.server.json(data, (err, result)=>{
+            this.log("saveImageRefsToServer: err, result", err, result)
+        });
 		
 	}
 	log(...args){

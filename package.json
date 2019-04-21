@@ -14,7 +14,8 @@
     "nodemailer": "^4.7.0",
     "underscore": "*",
     "imagemagick": "*",
-    "request": "*"
+    "request": "*",
+    "mongodb": "*"
   },
   "engines": {
     "node": "*",
