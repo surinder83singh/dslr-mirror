@@ -7,7 +7,6 @@ const ejs     		= require('ejs');
 const bodyParser    = require('body-parser');
 const im            = require('imagemagick');
 const crypto        = require('crypto');
-const md5           = crypto.createHash('md5');
 
 
 const GPhoto 		= require('./lib/gphoto');
@@ -218,6 +217,7 @@ class App {
 	}
 	
 	saveImageRefsToServer(data, callback){
+		var md5           = crypto.createHash('md5');
         var str = data.images.join(",");
         data.hash = md5.update(str).digest('hex')
         callback(null, data)
