@@ -28,7 +28,7 @@ class App {
         this.printer    = new Printer(this, this.config.printer);
         this.mailer     = new Mailer(this, this.config.mailer);
         this.server     = new Server(this, this.config.server);
-        this.db         = new DB(this, this.config.db)
+        //this.db         = new DB(this, this.config.db)
 
         this.initStaticParams();
         //this.copyDummyImage();

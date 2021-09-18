@@ -35,6 +35,14 @@ $(document).ready(()=>{
 		selectionGrid.deactivate();
 	})
 	$('.btn-fullscreen').on('click', ()=>{
+		if(document.fullscreenElement){
+			document.exitFullscreen();
+		}else{
+			document.body.requestFullscreen();
+		}
+	})
+
+	setTimeout(()=>{
 		document.body.requestFullscreen();
 	})
 	/*$('.get-selected').on("click", ()=>{

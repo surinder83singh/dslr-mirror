@@ -11,7 +11,7 @@
 
 	},
 	"counter":{
-		"countdown": 5,
+		"countdown": 2,
 		"captureDelay": 2
 	},
 	"server":{
