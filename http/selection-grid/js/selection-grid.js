@@ -178,10 +178,16 @@ class SelectionGrid{
 	activate(){
 		this.bodyEl.addClass("slg-active");
 		this.gridEl.addClass("active");
+		this.gridEl.trigger("activate");
+		if(this.options.onActivate)
+			this.options.onActivate()
 	}
 	deactivate(){
 		this.bodyEl.removeClass("slg-active");
 		this.gridEl.removeClass("active");
+		this.gridEl.trigger("deactivate")
+		if(this.options.onDeactivate)
+			this.options.onDeactivate()
 	}
 	selectAll(){
 		this.gridEl.find(".slg-img-box").addClass("selected")

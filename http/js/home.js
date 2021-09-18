@@ -16,7 +16,13 @@ $(document).ready(()=>{
 	
 	var selectionGrid = new SelectionGrid({
 		el:".slg-container", images:[],
-		boxImageCount:10
+		boxImageCount:10,
+		onActivate:()=>{
+			onSelectionGridActivate()
+		},
+		onDeactivate:()=>{
+			onSelectionGridDeactivate()
+		}
 	});
 	selectionGrid.init();
 	$('.slg-select-all').on("click", ()=>{
@@ -28,16 +34,19 @@ $(document).ready(()=>{
 	$('.slg-cancel').on("click", ()=>{
 		selectionGrid.deactivate();
 	})
+	$('.btn-fullscreen').on('click', ()=>{
+		document.body.requestFullscreen();
+	})
 	/*$('.get-selected').on("click", ()=>{
 		var selected = selectionGrid.getSelected();
 		console.log("selected", selected)
 	})*/
 	
-	var $resetBtn = $('.reset-btn');
+	var $doneBtn = $('.done-btn');
 	$stageTouch.on("click", ()=>{
 		startCounting();
 	});
-	$resetBtn.on("click", ()=>{
+	$doneBtn.on("click", ()=>{
 		setBundleImages([]);
 		showTouchStage();
 	});
@@ -80,6 +89,14 @@ $(document).ready(()=>{
 			api.alert("Error", "Please Try again later");*/
 		});
 	})
+
+	function onSelectionGridActivate(){
+		activateStage("Image");
+	}
+
+	function onSelectionGridDeactivate(){
+		//
+	}
 
 	function showTouchStage(){
 		$countingNum.html(counterConfig.countdown);
@@ -140,9 +157,9 @@ $(document).ready(()=>{
 	}
 
 	function activateStage(stage){
-		$(".main .section").removeClass("active");
+		$(".main .section, .slg-grid").removeClass("active");
 		$('#stage'+stage).addClass("active");
-		if(stage != 'Image')
+		if(!['Image'].includes(stage))
 			$stageImage.css('background-image', 'none');
 	}
 

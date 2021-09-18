@@ -221,10 +221,10 @@ class App {
         var str = data.images.join(",");
         data.hash = md5.update(str).digest('hex')
         callback(null, data)
+
 		this.server.json(data, (err, result)=>{
             this.log("saveImageRefsToServer: err, result", err, result)
         });
-		
 	}
 	log(...args){
 		args.unshift(this.constructor.name+"::");
