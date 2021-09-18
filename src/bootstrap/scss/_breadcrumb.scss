@@ -1,0 +1,44 @@
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  padding: $breadcrumb-padding-y $breadcrumb-padding-x;
+  margin-bottom: $breadcrumb-margin-bottom;
+  @include font-size($breadcrumb-font-size);
+  list-style: none;
+  background-color: $breadcrumb-bg;
+  @include border-radius($breadcrumb-border-radius);
+  &.breadcrumb-light{
+    .breadcrumb-item{
+      >a{
+        color:$breadcrumb-light-color;
+      }
+    }
+  }
+}
+
+.breadcrumb-item {
+  .breadcrumb-icon{
+    @include font-size($breadcrumb-icon-font-size);
+    margin-top: -0.175rem;
+    vertical-align: middle;
+    margin-right: .375rem;
+  }
+  // The separator between breadcrumbs (by default, a forward-slash: "/")
+  + .breadcrumb-item {
+    padding-left: $breadcrumb-item-padding-x;
+    &::before {
+      float: left; // Suppress inline spacings and underlining of the separator
+      padding-right: $breadcrumb-divider-padding-x;
+      color: $breadcrumb-divider-color;
+      content: var(--#{$variable-prefix}breadcrumb-divider, escape-svg($breadcrumb-divider)) #{"/* rtl:"} var(--#{$variable-prefix}breadcrumb-divider, escape-svg($breadcrumb-divider-flipped)) #{"*/"};
+      @include font-size($breadcrumb-divider-font-size);
+    }
+  }
+  >a{
+    text-decoration:none
+  }
+  &.active {
+    color: $breadcrumb-active-color;
+  }
+}
+
